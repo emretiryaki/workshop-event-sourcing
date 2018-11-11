@@ -18,6 +18,7 @@ using Reviews.Core.Projections;
 using Reviews.Core.Projections.RavenDb;
 using Reviews.Service.WebApi.Modules.Reviews;
 using Swashbuckle.AspNetCore.Swagger;
+using ICheckpointStore = Reviews.Core.Projections.ICheckpointStore;
 
 
 namespace Reviews.Service.WebApi
@@ -81,7 +82,7 @@ namespace Reviews.Service.WebApi
         private async Task BuildEventStore(IServiceCollection services)
         {
             //Create EventStore Connection
-            var gesConnection = EventStoreConnection.Create(
+            var eventStoreConnection = EventStoreConnection.Create(
                 Configuration["EventStore:ConnectionString"],
                 ConnectionSettings.Create()
                     .KeepReconnecting()
@@ -91,13 +92,13 @@ namespace Reviews.Service.WebApi
                 Environment.ApplicationName
             );
             
-            gesConnection.Connected += (sender, args) 
+            eventStoreConnection.Connected += (sender, args) 
                 => Console.WriteLine($"Connection to {args.RemoteEndPoint} event store established.");
             
-            gesConnection.ErrorOccurred += (sender, args) 
+            eventStoreConnection.ErrorOccurred += (sender, args) 
                 => Console.WriteLine($"Connection error : {args.Exception}");
             
-            await gesConnection.ConnectAsync();
+            await eventStoreConnection.ConnectAsync();
             
             
             var serializer = new JsonNetSerializer();
@@ -110,7 +111,7 @@ namespace Reviews.Service.WebApi
 
 
             var aggregateStore = new GesAggrigateStore(
-                gesConnection, 
+                eventStoreConnection, 
                 serializer, 
                 eventMapper,
                 (type, id) => $"{type.Name}-{id}", 
@@ -118,17 +119,17 @@ namespace Reviews.Service.WebApi
             
             services.AddSingleton(new ApplicationService(aggregateStore));
 
+            IAsyncDocumentSession GetSession() => BuildRevenDb().OpenAsyncSession();
 
-            var documentStore = BuildRevenDb();
-            IAsyncDocumentSession GetSession() => documentStore.OpenAsyncSession();
-
+            //TODO: will be created...
             Projection[] projections = null;
-            
-            new ProjectionManager(gesConnection, 
-                new RavenDbChecklpointStore(GetSession),
-                serializer,eventMapper,
-                projections
-                );
+
+            await ProjectionManager.With
+                .Connection(eventStoreConnection)
+                .CheckpointStore(new RavenDbChecklpointStore(GetSession))
+                .Serializer(serializer)
+                .SetProjections(projections)
+                .TypeMapper(eventMapper).StartAll();
         }
 
         private IDocumentStore BuildRevenDb()

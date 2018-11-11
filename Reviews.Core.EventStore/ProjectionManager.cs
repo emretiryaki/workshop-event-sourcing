@@ -9,6 +9,8 @@ namespace Reviews.Core.EventStore
 {
     public class ProjectionManager
     {
+        public static readonly ProjectionManagerBuilder With = new ProjectionManagerBuilder();
+        
         private readonly IEventStoreConnection eventStoreConnection;
         private readonly ICheckpointStore checkpointStore;
         private readonly ISerializer serializer;
