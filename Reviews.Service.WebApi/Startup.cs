@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using EventStore.ClientAPI;
 using Microsoft.AspNetCore.Builder;
@@ -6,8 +7,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Indexes;
+using Raven.Client.Documents.Session;
+using Raven.Client.ServerWide;
+using Raven.Client.ServerWide.Operations;
 using Reviews.Core.EventStore;
 using Reviews.Core;
+using Reviews.Core.Projections;
+using Reviews.Core.Projections.RavenDb;
 using Reviews.Service.WebApi.Modules.Reviews;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -30,7 +38,21 @@ namespace Reviews.Service.WebApi
             ConfigureServicesAsync(services).GetAwaiter().GetResult();
             var a = 1;
         }
-        
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            
+            app.UseMvcWithDefaultRoute();
+            app.UseSwagger();
+            app.UseSwaggerUI(options => options.SwaggerEndpoint(
+                Configuration["Swagger:Endpoint:Url"], 
+                Configuration["Swagger:Endpoint:Name"]));
+            
+            app.UseMvc();
+        }
         
         private async Task ConfigureServicesAsync(IServiceCollection services)
         {
@@ -94,23 +116,71 @@ namespace Reviews.Service.WebApi
                 (type, id) => $"{type.Name}-{id}", 
                 null);
             
-            services.AddSingleton(new ApplicationService(aggregateStore));   
+            services.AddSingleton(new ApplicationService(aggregateStore));
+
+
+            var documentStore = BuildRevenDb();
+            IAsyncDocumentSession GetSession() => documentStore.OpenAsyncSession();
+
+            Projection[] projections = null;
+            
+            new ProjectionManager(gesConnection, 
+                new RavenDbChecklpointStore(GetSession),
+                serializer,eventMapper,
+                projections
+                );
         }
-        
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+
+        private IDocumentStore BuildRevenDb()
         {
-            if (env.IsDevelopment())
+            var store = new DocumentStore {
+                Urls     = new[] {Configuration["RavenDb:Url"]},
+                Database = Configuration["RavenDb:Database"]
+            };
+            
+            if (Environment.IsDevelopment()) store.OnBeforeQuery += (_, args) 
+                => args.QueryCustomization.WaitForNonStaleResults();
+
+            try 
             {
-                app.UseDeveloperExceptionPage();
+                store.Initialize();                
+                Console.WriteLine($"Connection to {store.Urls[0]} document store established.");
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(
+                    $"Failed to establish connection to \"{store.Urls[0]}\" document store!" +
+                    $"Please check if https is properly configured in order to use the certificate.", ex);
+            }
+            try
+            {
+                var record = store.Maintenance.Server.Send(new GetDatabaseRecordOperation(store.Database));
+                if (record == null) 
+                {
+                    store.Maintenance.Server
+                        .Send(new CreateDatabaseOperation(new DatabaseRecord(store.Database)));
+
+                    Console.WriteLine($"{store.Database} document store database created.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(
+                    $"Failed to ensure that \"{store.Database}\" document store database exists!", ex);
             }
             
-            app.UseMvcWithDefaultRoute();
-            app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint(
-                Configuration["Swagger:Endpoint:Url"], 
-                Configuration["Swagger:Endpoint:Name"]));
+            try
+            {
+                IndexCreation.CreateIndexes(Assembly.GetExecutingAssembly(), store);
+                Console.WriteLine($"{store.Database} document store database indexes created or updated.");
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"Failed to create or update \"{store.Database}\" document store database indexes!", ex);
+            }
             
-            app.UseMvc();
+            return store;
+            
         }
     }
 }
