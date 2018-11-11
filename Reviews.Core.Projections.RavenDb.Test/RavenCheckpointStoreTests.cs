@@ -37,14 +37,12 @@ namespace Reviews.Core.Projections.RavenDb.Test
             //When
             Func<Task> setcheckpoint = ()=> sut.SetCheckpoint(expectedCheckpoint, projection);
 
+            var checkpoint = await sut.GetLastCheckpoint<Position>(projection);
+            
             //Then
             setcheckpoint.Should().NotThrow();
-            
-            //can get checkpoint
-            var checkpoint = sut.GetLastCheckpoint<Position>(projection);
-            
-            
-            
+            checkpoint.Should().BeEquivalentTo(expectedCheckpoint);
+
         }
 
         public void Dispose()
@@ -93,7 +91,6 @@ namespace Reviews.Core.Projections.RavenDb.Test
                     $"Please check if https is properly configured in order to use the certificate.", ex);
             }
 
-            return null;
         });
     }
 }
