@@ -53,6 +53,8 @@ namespace Reviews.Contracts
                 public string Caption { get; set; }
                 
                 public string Content { get; set; }
+                
+                public DateTime ChangedAt { get; set; }
             }
 
             public class ReviewPublish

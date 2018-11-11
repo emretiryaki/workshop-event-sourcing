@@ -24,7 +24,7 @@ namespace Reviews.Service.WebApi.Modules.Reviews
 
 
         public async Task Handle(Contracts.Reviews.V1.UpdateReview command) =>
-            HandleForUpdate(command.Id, r => r.UpdateCaptionAndContent(command.Caption, command.Content));
+            HandleForUpdate(command.Id, r => r.UpdateCaptionAndContent(command.Caption, command.Content,command.ChangedAt));
 
 
         public async Task Handle(Contracts.Reviews.V1.ReviewPublish command)

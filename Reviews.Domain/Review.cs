@@ -90,7 +90,7 @@ namespace Reviews.Domain
             return review;
         }
 
-        public void UpdateCaptionAndContent(string caption, string content)
+        public void UpdateCaptionAndContent(string caption, string content,DateTime changedAt)
         {
             if (Version == -1)
                 throw new ReviewNotFoundException(Id);
@@ -100,7 +100,7 @@ namespace Reviews.Domain
                 Id=Id,
                 Caption=caption,
                 Content=content,
-                ChangedAt=DateTime.UtcNow
+                ChangedAt=changedAt
             });
         }
         public void Publish()

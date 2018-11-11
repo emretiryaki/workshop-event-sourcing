@@ -92,6 +92,7 @@
         <e p="Reviews.Domain.Test.csproj" t="IncludeRecursive" />
         <e p="SpecificationAggregateStore.cs" t="Include" />
         <e p="Spesification.cs" t="Include" />
+        <e p="update_review_content.cs" t="Include" />
       </e>
       <e p="Reviews.Service.WebApi" t="IncludeRecursive">
         <e p="appsettings.Development.json" t="Include" />
