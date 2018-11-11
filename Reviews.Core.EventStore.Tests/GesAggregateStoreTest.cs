@@ -25,7 +25,7 @@ namespace Reviews.Core.EventStore.Tests
 
             EventTypeMapper = new EventTypeMapper()
                 .Map<Domain.Events.V1.ReviewCreated>("reviewCreated")
-                .Map<Domain.Events.V1.ReviewApproved>("reviewApproved");
+                .Map<Domain.Events.V1.CaptionAndContentChanged>("reviewUpdated");
          
         }
         
@@ -48,7 +48,7 @@ namespace Reviews.Core.EventStore.Tests
             var aggregate = new Reviews.Domain.Review();
 
             aggregate.Apple(AutoFixture.Create<Domain.Events.V1.ReviewCreated>());
-            aggregate.Apple(AutoFixture.Create<Domain.Events.V1.ReviewApproved>());
+            aggregate.Apple(AutoFixture.Create<Domain.Events.V1.CaptionAndContentChanged>());
 
 
             var sut = new GesAggrigateStore(Connection, Serializer, EventTypeMapper, (a, b) => $"{a}-{b}", null);
@@ -66,7 +66,7 @@ namespace Reviews.Core.EventStore.Tests
             var aggregate = new Reviews.Domain.Review();
 
             aggregate.Apple(AutoFixture.Build<Domain.Events.V1.ReviewCreated>().With(e=>e.Id,AggregateId).Create());
-            aggregate.Apple(AutoFixture.Build<Domain.Events.V1.ReviewApproved>().With(e=>e.Id,AggregateId).Create());
+            aggregate.Apple(AutoFixture.Build<Domain.Events.V1.CaptionAndContentChanged>().With(e=>e.Id,AggregateId).Create());
 
            
             var sut = new GesAggrigateStore(Connection, Serializer, EventTypeMapper, (a, b) => $"{a}-{b}", null);

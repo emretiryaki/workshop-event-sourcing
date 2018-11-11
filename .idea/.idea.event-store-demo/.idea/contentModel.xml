@@ -63,7 +63,7 @@
       <e p="Reviews.Domain" t="IncludeRecursive">
         <e p="Bin" t="ExcludeRecursive" />
         <e p="Events" t="Include">
-          <e p="ReviewApproved.cs" t="Include" />
+          <e p="CaptionAndContentChanged.cs" t="Include" />
           <e p="ReviewCreated.cs" t="Include" />
         </e>
         <e p="Exceptions.cs" t="Include" />
