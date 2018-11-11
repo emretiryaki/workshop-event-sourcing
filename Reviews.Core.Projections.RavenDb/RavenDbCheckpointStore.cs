@@ -6,9 +6,9 @@ namespace Reviews.Core.Projections.RavenDb
 {
     public class RavenDbChecklpointStore: ICheckpointStore
     {
-        private readonly Func<AsyncDocumentSession> getSession;
+        private readonly Func<IAsyncDocumentSession> getSession;
 
-        public RavenDbChecklpointStore(Func<AsyncDocumentSession> session)
+        public RavenDbChecklpointStore(Func<IAsyncDocumentSession> session)
         {
             getSession = session;
         }
