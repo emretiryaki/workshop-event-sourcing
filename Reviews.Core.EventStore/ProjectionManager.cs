@@ -57,10 +57,8 @@ namespace Reviews.Core.EventStore
                 eventAppeared(projection),
                 liveProcessingStarted(projection),subscriptionDropped(projection),userCredentials );
 
-
         }
-
-        
+        //https://eventstore.org/blog/20130306/getting-started-part-3-subscriptions/
         //SubscribeToAllFrom(this IEventStoreConnection target,
         //                    Position? lastCheckpoint,
         //                    CatchUpSubscriptionSettings settings,
@@ -72,7 +70,21 @@ namespace Reviews.Core.EventStore
         private Action<EventStoreCatchUpSubscription, ResolvedEvent> eventAppeared(Projection projection)
             => async (_, e) =>
             {
+                // check system events and ignore them...
+                if (e.OriginalEvent.EventType.StartsWith("$")) return;
                 
+                // find event type
+                var eventType = eventTypeMapper.GetEventType(e.Event.EventType);
+
+                // deserialize the event.
+                var domainEvent = serializer.Deserialize(e.Event.Data, eventType);
+
+                //build your projection
+                await projection.Handle(domainEvent);
+                
+                //store current checkpoint
+                checkpointStore.SetCheckpoint(e.OriginalPosition.Value, projection);
+
             };
 
         private Action<EventStoreCatchUpSubscription> liveProcessingStarted(Projection projection) 
@@ -81,10 +93,37 @@ namespace Reviews.Core.EventStore
                 Console.WriteLine("${projection} has been started,now processing real time!");
             };
 
+        
+        //https://github.com/EventStore/EventStore/issues/929
+        //https://github.com/EventStore/EventStore/issues/1127
+        //still open issue on EventStore...
         private Action<EventStoreCatchUpSubscription, SubscriptionDropReason, Exception> subscriptionDropped(Projection projection)
             => async (eventStoreCatchUpSubscription, subscriptionDropReason, exception) =>
             {
                 
+                eventStoreCatchUpSubscription.Stop();
+
+                switch (subscriptionDropReason)
+                {
+                    case SubscriptionDropReason.UserInitiated:
+                        Console.WriteLine($"{projection} projection stopped by user.");
+                        break;
+                    case SubscriptionDropReason.SubscribingError:
+                    case SubscriptionDropReason.ServerError:
+                    case SubscriptionDropReason.ConnectionClosed:
+                    case SubscriptionDropReason.CatchUpError:
+                    case SubscriptionDropReason.ProcessingQueueOverflow:
+                    case SubscriptionDropReason.EventHandlerException:
+                        Console.WriteLine($"{projection} projection stopped because of a transient error ({subscriptionDropReason}). ");
+                        Console.WriteLine($"Exception Detail:  {exception}");    
+                        Console.WriteLine("Attempting to restart...");
+                        Task.Run(() => StartProjection(projection));
+                        break;
+                    default:
+                        Console.WriteLine("Your subscription gg");
+                        Console.WriteLine($"Exception Detail:  {exception}");    
+                        break;
+                }
             };
     }
 }

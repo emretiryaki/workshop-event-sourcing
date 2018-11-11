@@ -65,6 +65,19 @@
         </e>
         <e p="Reviews.Core.EventStore.Tests.csproj" t="IncludeRecursive" />
       </e>
+      <e p="Reviews.Core.Projections.RavenDb" t="IncludeRecursive">
+        <e p="Bin" t="ExcludeRecursive" />
+        <e p="CheckpointDocument.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="Reviews.Core.Projections.RavenDb.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="RavenDbCheckpointStore.cs" t="Include" />
+        <e p="Reviews.Core.Projections.RavenDb.csproj" t="IncludeRecursive" />
+      </e>
       <e p="Reviews.Domain" t="IncludeRecursive">
         <e p="Bin" t="ExcludeRecursive" />
         <e p="Events" t="Include">
