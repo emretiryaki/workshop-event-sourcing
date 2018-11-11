@@ -32,6 +32,10 @@
             </e>
           </e>
         </e>
+        <e p="Projections" t="Include">
+          <e p="ICheckpointStore.cs" t="Include" />
+          <e p="Projection.cs" t="Include" />
+        </e>
         <e p="Reviews.Core.csproj" t="IncludeRecursive" />
         <e p="Value.cs" t="Include" />
       </e>
@@ -45,6 +49,7 @@
             </e>
           </e>
         </e>
+        <e p="ProjectionManager.cs" t="Include" />
         <e p="Reviews.Core.EventStore.csproj" t="IncludeRecursive" />
       </e>
       <e p="Reviews.Core.EventStore.Tests" t="IncludeRecursive">
