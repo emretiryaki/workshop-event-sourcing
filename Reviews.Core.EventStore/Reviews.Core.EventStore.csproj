@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reviews.Core\Reviews.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EventStore.Client">
+      <Version>4.1.1</Version>
+    </PackageReference>
+  </ItemGroup>
+</Project>

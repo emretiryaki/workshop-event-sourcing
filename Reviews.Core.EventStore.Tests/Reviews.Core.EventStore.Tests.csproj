@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.5.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="AutoFixture, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f">
+      <HintPath>..\..\..\..\.nuget\packages\autofixture\4.5.0\lib\netstandard2.0\AutoFixture.dll</HintPath>
+    </Reference>
+    <Reference Include="EventStore.ClientAPI, Version=4.1.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\.nuget\packages\eventstore.client\4.1.1\lib\net40\EventStore.ClientAPI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Reviews.Core\Reviews.Core.csproj" />
+    <ProjectReference Include="..\Reviews.Service.WebApi\Reviews.Service.WebApi.csproj" />
+  </ItemGroup>
+</Project>
