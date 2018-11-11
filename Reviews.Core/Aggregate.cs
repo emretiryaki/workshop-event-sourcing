@@ -5,14 +5,6 @@ using System.Threading.Tasks;
 
 namespace Reviews.Core
 {
-    public interface ICheckpointStore
-    {
-        Task<T> GetLastCheckpoint<T>(string projection);
-
-        Task SetCheckpoint<T>(T checkpoint,string projection);
-    }
-    
-    
     public abstract class Aggregate
     {
         private readonly IList<object> changes = new List<object>();
