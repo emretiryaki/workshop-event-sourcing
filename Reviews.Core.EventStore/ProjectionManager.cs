@@ -28,9 +28,9 @@ namespace Reviews.Core.EventStore
                                     ISerializer serializer,
                                     EventTypeMapper eventTypeMapper,
                                     Projection[] projections,
-                                    int? maxLiveQueueSize,
-                                    int? readBatchSize,
-                                    bool? verboseLogging,
+                                    int maxLiveQueueSize,
+                                    int readBatchSize,
+                                    bool verboseLogging,
                                     UserCredentials userCredentials=null
                                   )
         {
@@ -41,9 +41,9 @@ namespace Reviews.Core.EventStore
             this.projections = projections;
             this.userCredentials = userCredentials;
 
-            this.maxLiveQueueSize = maxLiveQueueSize ?? 10000;
-            this.readBatchSize = readBatchSize ?? 500;
-            this.verboseLogging = verboseLogging ?? false;
+            this.maxLiveQueueSize = maxLiveQueueSize;
+            this.readBatchSize = readBatchSize;
+            this.verboseLogging = verboseLogging;
         }
 
         public Task StartAll() => Task.WhenAll(this.projections.Select(StartProjection));
@@ -52,8 +52,9 @@ namespace Reviews.Core.EventStore
         {
 
             var lastCheckpoint = await checkpointStore.GetLastCheckpoint<Position>(projection);
-            
-            var catchUpSubscriptionSettings = new CatchUpSubscriptionSettings(maxLiveQueueSize,readBatchSize,verboseLogging,false,projection);
+
+            var s = projection.ToString();
+            var catchUpSubscriptionSettings = new CatchUpSubscriptionSettings(maxLiveQueueSize,readBatchSize,verboseLogging,false,projection.ToString());
 
             eventStoreConnection.SubscribeToAllFrom(lastCheckpoint, catchUpSubscriptionSettings,
                 eventAppeared(projection),
@@ -78,6 +79,7 @@ namespace Reviews.Core.EventStore
                 // find event type
                 var eventType = eventTypeMapper.GetEventType(e.Event.EventType);
 
+                if (eventType == null) return;
                 // deserialize the event.
                 var domainEvent = serializer.Deserialize(e.Event.Data, eventType);
 
@@ -86,6 +88,8 @@ namespace Reviews.Core.EventStore
                 
                 //store current checkpoint
                 checkpointStore.SetCheckpoint(e.OriginalPosition.Value, projection);
+                
+                Console.WriteLine($"{domainEvent} projected into {projection}");
 
             };
 

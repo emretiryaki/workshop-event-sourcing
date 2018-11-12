@@ -37,18 +37,10 @@ namespace console_app
            
                
                 
-                await gesConnection.AppendToStreamAsync(streamName, -1, new List<EventData>()
+                await gesConnection.AppendToStreamAsync(streamName, 3, new List<EventData>()
                 {
                     new EventData(g, "addUser", true, msg, null)
                 });
-            await gesConnection.AppendToStreamAsync(streamName, 0, new List<EventData>()
-            {
-                new EventData(g, "testUSER", true, msg, null)
-            });
-            await gesConnection.AppendToStreamAsync(streamName, 1, new List<EventData>()
-            {
-                new EventData(g, "deleteUSER", true, msg, null)
-            });
 
             Console.ReadKey();
             

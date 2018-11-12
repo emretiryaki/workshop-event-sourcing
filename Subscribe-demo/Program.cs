@@ -11,6 +11,7 @@ namespace Subscribe_demo
         {
             const string STREAM = "abc";
             const int DEFAULTPORT = 1113;
+            const string GROUP = "test_group";
             //uncommet to enable verbose logging in client.
             var settings = ConnectionSettings.Create();//.EnableVerboseLogging().UseConsoleLogger();
             using (var conn = EventStoreConnection.Create(settings, new IPEndPoint(IPAddress.Loopback, DEFAULTPORT)))
@@ -31,5 +32,6 @@ namespace Subscribe_demo
                 Console.ReadLine();
             }
         }
+        
     }
 }

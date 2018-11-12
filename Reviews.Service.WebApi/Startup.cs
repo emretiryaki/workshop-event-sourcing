@@ -121,14 +121,14 @@ namespace Reviews.Service.WebApi
             services.AddSingleton(new ApplicationService(aggregateStore));
 
             IAsyncDocumentSession GetSession() => BuildRevenDb().OpenAsyncSession();
-
             
             await ProjectionManager.With
                 .Connection(eventStoreConnection)
                 .CheckpointStore(new RavenDbChecklpointStore(GetSession))
                 .Serializer(serializer)
                 .TypeMapper(eventMapper)
-                .AddProjection(new ActiveReviews())
+                .SetProjections(
+                    new ActiveReviews(GetSession))
                 .StartAll();
         }
 

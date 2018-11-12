@@ -15,9 +15,9 @@ namespace Reviews.Core.EventStore
         private Projection[] projections;
         private UserCredentials userCredentials=null;
         
-        private int maxLiveQueueSize ;
-        private int readBatchSize;
-        private bool verboseLogging;
+        private int maxLiveQueueSize=10000;
+        private int readBatchSize=500;
+        private bool verboseLogging=false;
 
         public ProjectionManagerBuilder Connection(IEventStoreConnection eventStoreConnection)
         {
