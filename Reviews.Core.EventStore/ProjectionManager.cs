@@ -96,7 +96,7 @@ namespace Reviews.Core.EventStore
         private Action<EventStoreCatchUpSubscription> liveProcessingStarted(Projection projection) 
             => async (eventStoreCatchUpSubscription) =>
             {
-                Console.WriteLine("${projection} has been started,now processing real time!");
+                Console.WriteLine($"{projection} has been started,now processing real time!");
             };
 
         

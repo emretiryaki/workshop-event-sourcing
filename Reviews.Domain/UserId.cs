@@ -15,6 +15,8 @@ namespace Reviews.Domain
         public static implicit operator Guid(UserId self) => self.value;
 
         public static implicit operator UserId(Guid value) => new UserId(value);
-        
+
+        public override string ToString() => value.ToString();
+
     }
 }

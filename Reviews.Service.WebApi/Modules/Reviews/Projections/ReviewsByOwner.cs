@@ -40,10 +40,19 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
                         {
                             Id = ev.Id,
                             Caption = ev.Caption,
-                            Content = ev.Content
+                            Content = ev.Content,
+                            Status = "Draft"
                         });
                         break;
                     
+                    case Domain.Events.V1.ReviewApproved ev:
+
+                        session.Update<ReviewsByOwnerDocument>(DocumentId(ev.OwnerId), doc =>
+                        {
+                            var review = doc.ListOfReviews.First(q => q.Id == ev.Id);
+                            review.Status = "Approved";
+                        });
+                        break;
                     case Domain.Events.V1.CaptionAndContentChanged ev:
 
                         session.Update<ReviewsByOwnerDocument>(DocumentId(ev.Owner), doc =>
@@ -51,6 +60,7 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
                             var review = doc.ListOfReviews.First(q => q.Id == ev.Id);
                             review.Caption = ev.Caption;
                             review.Content = ev.Content;
+                            review.Status = "Draft";
                         });
                         break;
                 }
@@ -72,6 +82,7 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
             public Guid Id { get; set; }
             public string Caption { get; set; }
             public string Content { get; set; }
+            public string Status { get; set; }
         }
     }
 }

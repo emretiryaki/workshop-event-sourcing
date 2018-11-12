@@ -19,12 +19,15 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
             {
                 switch (e)
                 {
-                    case Domain.Events.V1.ReviewCreated view:
+                    case Domain.Events.V1.ReviewApproved view:
                         var document = new ActiveReviewDocument
                         {
                             Id = DocumentId(view.Id),
                             Caption = view.Caption,
                             Content = view.Content,
+                            Owner =  view.OwnerId.ToString(),
+                            ReviewAt = view.ReviewAt,
+                            ReviewBy = view.ReviewBy.ToString()
                         };
                         await session.StoreAsync(document);
                         break;
@@ -51,6 +54,12 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
         public string Caption { get; set; }
 
         public string Content { get; set; }
+
+        public string Owner { get; set; }
+        
+        public string ReviewBy { get;  set; }
+        
+        public DateTime ReviewAt { get; set; }
 
     }
 }
