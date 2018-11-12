@@ -38,7 +38,6 @@ namespace Reviews.Service.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureServicesAsync(services).GetAwaiter().GetResult();
-            var a = 1;
         }
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -127,8 +126,11 @@ namespace Reviews.Service.WebApi
                 .CheckpointStore(new RavenDbChecklpointStore(GetSession))
                 .Serializer(serializer)
                 .TypeMapper(eventMapper)
-                .SetProjections(
-                    new ActiveReviews(GetSession))
+                .SetProjections( new Projection[]
+                {
+                    new ActiveReviews(GetSession),
+                    new ReviewsByOwner(GetSession)  
+                })
                 .StartAll();
         }
 

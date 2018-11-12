@@ -39,7 +39,7 @@ namespace Reviews.Domain
         public string Caption { get; private set; }
         public string Content { get; private set; }
         public Status CurrentStatus { get; private set; }
-        public UserId Owner { get; private set; }
+        public Guid Owner { get; private set; }
         private IList<History> History {get; set; } = new List<History>();
 
         public IList<History> GetHistory() => History;
@@ -57,6 +57,7 @@ namespace Reviews.Domain
                     break;
                 case Events.V1.ReviewApproved x:
                     CurrentStatus = Status.Approved;
+                    Owner = x.OwnerId;
                     History.Add(new History(x.ReviewAt,x.ReviewBy,Status.Approved));
                     break;
                 
@@ -76,7 +77,7 @@ namespace Reviews.Domain
             } 
         }
 
-        public static Review Create(Guid id,UserId ownerid, string caption, string context)
+        public static Review Create(Guid id,UserId ownerId, string caption, string context)
         {
             var review = new Review();
             
@@ -85,7 +86,7 @@ namespace Reviews.Domain
                 Id = id,
                 Caption = caption,
                 Content = context,
-                Owner = ownerid
+                Owner = ownerId
             });
             return review;
         }
@@ -113,7 +114,8 @@ namespace Reviews.Domain
                 Apple(new Events.V1.ReviewPublished
                 {
                     Id=Id,
-                    ChangedAt=DateTime.UtcNow
+                    ChangedAt=DateTime.UtcNow,
+                    
                 });    
             }
             
@@ -131,7 +133,10 @@ namespace Reviews.Domain
             {
                 Id = Id,
                 ReviewBy = reviewBy,
-                ReviewAt = reviewAt
+                ReviewAt = reviewAt,
+                Caption = Caption,
+                Content = Content,
+                OwnerId = Owner
             });
         }
     }
