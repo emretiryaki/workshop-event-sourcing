@@ -20,3 +20,4 @@ Reviews.Core.Projections.RavenDb/obj
 Reviews.Core.Projections.RavenDb.Test/bin
 Reviews.Core.Projections.RavenDb.Test/obj
 Reviews.Core.Projections.RavenDb/bin
+http-requests-log.http
