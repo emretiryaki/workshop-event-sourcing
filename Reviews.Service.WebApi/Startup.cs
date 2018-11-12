@@ -121,7 +121,7 @@ namespace Reviews.Service.WebApi
 
             IAsyncDocumentSession GetSession() => BuildRevenDb().OpenAsyncSession();
             
-            await ProjectionManager.With
+            await ProjectionManagerWithPersistantSubscription.With
                 .Connection(eventStoreConnection)
                 .CheckpointStore(new RavenDbChecklpointStore(GetSession))
                 .Serializer(serializer)
@@ -131,7 +131,7 @@ namespace Reviews.Service.WebApi
                     new ActiveReviews(GetSession),
                     new ReviewsByOwner(GetSession)  
                 })
-                .StartAll();
+                .StartAllWithPersist();
         }
 
         private IDocumentStore BuildRevenDb()

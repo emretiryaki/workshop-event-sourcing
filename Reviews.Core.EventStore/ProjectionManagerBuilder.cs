@@ -93,5 +93,25 @@ namespace Reviews.Core.EventStore
             return manager;
         }
         
+        private ProjectionManagerWithPersistantSubscription BuildWithPersist() =>
+            new ProjectionManagerWithPersistantSubscription(
+                eventStoreConnection,
+                checkpointStore,
+                serializer,
+                eventTypeMapper,
+                projections,
+                maxLiveQueueSize,
+                readBatchSize,
+                verboseLogging,
+                userCredentials
+            );
+        
+        public async Task<ProjectionManagerWithPersistantSubscription> StartAllWithPersist()
+        {
+            var manager = BuildWithPersist();
+            await manager.StartAll();
+            return manager;
+        }
+        
     }
 }
