@@ -100,7 +100,8 @@ namespace Reviews.Domain
                 Id=Id,
                 Caption=caption,
                 Content=content,
-                ChangedAt=changedAt
+                ChangedAt=changedAt,
+                Owner = Owner
             });
         }
         public void Publish()

@@ -34,7 +34,8 @@ namespace Reviews.Core
         public static Type GetEventType(this EventTypeMapper mapper, string name)
         {
             if (!mapper.TryGetEventType(name, out var type))
-                throw new Exception($"Failed to find type mapped with '{name}'");
+                return null;
+                //throw new Exception($"Failed to find type mapped with '{name}'");
 
             return type;
         }
