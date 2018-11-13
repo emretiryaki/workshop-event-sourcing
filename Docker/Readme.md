@@ -50,7 +50,7 @@ $ docker-compose stop
 ```
 
 Hence that this command does not remove containers so you can run them again using `docker-compose up` or `docker-compose start` and your data will be retained from the previous section.
-
+w
 If you want to clean up all data, use
 
 ```

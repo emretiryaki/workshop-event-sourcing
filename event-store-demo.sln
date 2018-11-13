@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WritingEvents", "Persistant
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistentSubscription", "PersistantSubscription\PersistentSubscription\PersistentSubscription.csproj", "{C1371EAE-BAD1-48E3-9B4E-E493BCE7A000}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reviews.Service.QueryApi", "Reviews.Service.QueryApi\Reviews.Service.QueryApi.csproj", "{45D2BF28-B2A7-4DAF-9615-3AD65E5A3011}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{C1371EAE-BAD1-48E3-9B4E-E493BCE7A000}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1371EAE-BAD1-48E3-9B4E-E493BCE7A000}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1371EAE-BAD1-48E3-9B4E-E493BCE7A000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45D2BF28-B2A7-4DAF-9615-3AD65E5A3011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D2BF28-B2A7-4DAF-9615-3AD65E5A3011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D2BF28-B2A7-4DAF-9615-3AD65E5A3011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D2BF28-B2A7-4DAF-9615-3AD65E5A3011}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{62C3E19F-C195-4DDB-912C-53888F536E5B} = {E0E25DD0-C136-48EF-8409-8444BE881CEF}
