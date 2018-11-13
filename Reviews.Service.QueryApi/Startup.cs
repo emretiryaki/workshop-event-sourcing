@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
+using Reviews.Service.QueryApi.Modules.Reviews;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Reviews.Service.QueryApi
@@ -31,7 +33,11 @@ namespace Reviews.Service.QueryApi
                     });
             });
             
-            
+            IAsyncDocumentSession GetSession() => BuildRevenDb().OpenAsyncSession();
+            var queryService = new QueryService(GetSession);
+            services.AddSingleton(queryService);
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,21 +52,17 @@ namespace Reviews.Service.QueryApi
                 Configuration["Swagger:Endpoint:Url"], 
                 Configuration["Swagger:Endpoint:Name"]));
             app.UseMvc();
-
-            BuildRevenDb(env);
+  
         }
         
         
-         private IDocumentStore BuildRevenDb(IHostingEnvironment env)
+         private IDocumentStore BuildRevenDb()
         {
             var store = new DocumentStore {
                 Urls     = new[] {Configuration["RavenDb:Url"]},
                 Database = Configuration["RavenDb:Database"]
             };
             
-            if (env.IsDevelopment()) store.OnBeforeQuery += (_, args) 
-                => args.QueryCustomization.WaitForNonStaleResults();
-
             try 
             {
                 store.Initialize();                
