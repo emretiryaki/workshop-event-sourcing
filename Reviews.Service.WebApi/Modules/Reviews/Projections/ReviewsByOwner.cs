@@ -47,7 +47,7 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
                     
                     case Domain.Events.V1.ReviewApproved ev:
 
-                        session.Update<ReviewsByOwnerDocument>(DocumentId(ev.OwnerId), doc =>
+                        await session.Update<ReviewsByOwnerDocument>(DocumentId(ev.OwnerId), doc =>
                         {
                             var review = doc.ListOfReviews.First(q => q.Id == ev.Id);
                             review.Status = "Approved";
@@ -55,7 +55,7 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
                         break;
                     case Domain.Events.V1.CaptionAndContentChanged ev:
 
-                        session.Update<ReviewsByOwnerDocument>(DocumentId(ev.Owner), doc =>
+                        await session.Update<ReviewsByOwnerDocument>(DocumentId(ev.Owner), doc =>
                         {
                             var review = doc.ListOfReviews.First(q => q.Id == ev.Id);
                             review.Caption = ev.Caption;
