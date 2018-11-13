@@ -27,3 +27,5 @@ PersistantSubscription/WritingEvents/obj
 PersistantSubscription/WritingEvents/bin
 Reviews.Service.QueryApi/bin
 Reviews.Service.QueryApi/obj
+Reviews.Service.Contract/bin
+Reviews.Service.Contract/obj

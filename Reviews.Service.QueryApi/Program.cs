@@ -34,6 +34,7 @@ namespace Reviews.Service.QueryApi
             WebHost.CreateDefaultBuilder(args)
                 .UseConfiguration(configuration)
                 .ConfigureServices(services => services.AddSingleton(configuration))
+                .UseUrls("http://127.0.0.1:5005")
                 .UseStartup<Startup>();
         
         private static IConfiguration BuildConfiguration(string[] args)

@@ -18,12 +18,14 @@
     <ItemGroup>
       <Content Update="appsettings.json">
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <Content Update="appsettings.Development.json">
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Reviews.Service.Contract\Reviews.Service.Contract.csproj" />
     </ItemGroup>
 
 </Project>

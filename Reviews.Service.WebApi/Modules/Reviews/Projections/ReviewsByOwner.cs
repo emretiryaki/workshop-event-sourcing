@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Raven.Client.Documents.Session;
 using Reviews.Core.Projections;
 using Reviews.Core.Projections.RavenDb;
+using Reviews.Service.Contract;
 
 namespace Reviews.Service.WebApi.Modules.Reviews.Projections
 {
@@ -70,19 +71,5 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
         }
 
         
-    }
-
-    public class ReviewsByOwnerDocument
-    {
-        public string Id { get; set; }
-        public IList<ReviewDocument> ListOfReviews { get; set; }
-        
-        public class ReviewDocument
-        {
-            public Guid Id { get; set; }
-            public string Caption { get; set; }
-            public string Content { get; set; }
-            public string Status { get; set; }
-        }
     }
 }
