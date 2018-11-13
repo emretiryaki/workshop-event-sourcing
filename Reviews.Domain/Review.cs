@@ -73,6 +73,7 @@ namespace Reviews.Domain
                 
                 case Events.V1.ReviewPublished x:
                     CurrentStatus = Status.PendingApprove;
+                    Owner = x.OwnerId;
                     break;
             } 
         }
@@ -115,6 +116,7 @@ namespace Reviews.Domain
                 {
                     Id=Id,
                     ChangedAt=DateTime.UtcNow,
+                    OwnerId = Owner
                     
                 });    
             }

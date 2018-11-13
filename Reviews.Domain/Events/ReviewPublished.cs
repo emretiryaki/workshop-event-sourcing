@@ -6,5 +6,6 @@ namespace Reviews.Domain.Events.V1
     {
         public Guid Id { get; set; }
         public DateTime ChangedAt { get; set; }
+        public Guid OwnerId { get; set; }
     }
 }

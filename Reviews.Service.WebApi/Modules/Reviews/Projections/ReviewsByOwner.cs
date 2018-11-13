@@ -45,6 +45,14 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
                         });
                         break;
                     
+                    case Domain.Events.V1.ReviewPublished ev:
+
+                        await session.Update<ReviewsByOwnerDocument>(DocumentId(ev.OwnerId), doc =>
+                        {
+                            var review = doc.ListOfReviews.First(q => q.Id == ev.Id);
+                            review.Status = "Published";
+                        });
+                        break;                    
                     case Domain.Events.V1.ReviewApproved ev:
 
                         await session.Update<ReviewsByOwnerDocument>(DocumentId(ev.OwnerId), doc =>
