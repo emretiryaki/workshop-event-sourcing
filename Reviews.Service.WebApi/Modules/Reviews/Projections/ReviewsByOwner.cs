@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Raven.Client.Documents.Session;
 using Reviews.Core.Projections;
 using Reviews.Core.Projections.RavenDb;
+using Reviews.Service.Contract;
 
 namespace Reviews.Service.WebApi.Modules.Reviews.Projections
 {
     public class ReviewsByOwner : Projection
     {
+        private static string DocumentId(Guid id) => $"ReviewsByOwner/{id}";
         private readonly Func<IAsyncDocumentSession> getSession;
 
         public ReviewsByOwner(Func<IAsyncDocumentSession> session)=> getSession = session;
-        
 
         public override async Task Handle(object e)
         {
@@ -58,8 +59,8 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
                         await session.Update<ReviewsByOwnerDocument>(DocumentId(ev.Owner), doc =>
                         {
                             var review = doc.ListOfReviews.First(q => q.Id == ev.Id);
-                            review.Caption = ev.Caption;
                             review.Content = ev.Content;
+                            review.Caption = ev.Caption;
                             review.Status = "Draft";
                         });
                         break;
@@ -69,20 +70,6 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
             }
         }
 
-        public static string DocumentId(Guid id) => $"ReviewsByOwner/{id}";
-    }
-
-    public class ReviewsByOwnerDocument
-    {
-        public string Id { get; set; }
-        public IList<ReviewDocument> ListOfReviews { get; set; }
-
-        public class ReviewDocument
-        {
-            public Guid Id { get; set; }
-            public string Caption { get; set; }
-            public string Content { get; set; }
-            public string Status { get; set; }
-        }
+        
     }
 }

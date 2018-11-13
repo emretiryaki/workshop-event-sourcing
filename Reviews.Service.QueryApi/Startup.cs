@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Raven.Client.Documents;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Reviews.Service.QueryApi
 {
@@ -20,7 +21,17 @@ namespace Reviews.Service.QueryApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1); services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc(
+                    $"v{Configuration["Swagger:Version"]}", 
+                    new Info {
+                        Title   = Configuration["Swagger:Title"], 
+                        Version = $"v{Configuration["Swagger:Version"]}"
+                    });
+            });
+            
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Raven.Client.Documents.Session;
 using Reviews.Core.Projections;
+using Reviews.Service.Contract;
 
 namespace Reviews.Service.WebApi.Modules.Reviews.Projections
 {
@@ -45,21 +46,5 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
         }
         
         private static string DocumentId(Guid id) => $"ActiveReviews/{id}";
-    }
-
-    public class ActiveReviewDocument
-    {
-        public string Id { get; set; }
-        
-        public string Caption { get; set; }
-
-        public string Content { get; set; }
-
-        public string Owner { get; set; }
-        
-        public string ReviewBy { get;  set; }
-        
-        public DateTime ReviewAt { get; set; }
-
     }
 }
