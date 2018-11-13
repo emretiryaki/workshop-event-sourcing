@@ -63,8 +63,8 @@ namespace Reviews.Core.EventStore
         {
             var bufferSize = 10;
             var autoAck = true;
-            EventStorePersistentSubscriptionBase _subscription;
-            _subscription = eventStoreConnection.ConnectToPersistentSubscription(
+
+            var subscription = eventStoreConnection.ConnectToPersistentSubscription(
                 projection.ToString(), 
                 Group, 
                 EventAppeared(projection), 
@@ -73,7 +73,7 @@ namespace Reviews.Core.EventStore
                 bufferSize, 
                 autoAck);
             
-            eventStorePersistentSubscriptionBases.Add(_subscription);
+            eventStorePersistentSubscriptionBases.Add(subscription);
         }
 
         private Action<EventStorePersistentSubscriptionBase, SubscriptionDropReason, Exception> SubscriptionDropped(
