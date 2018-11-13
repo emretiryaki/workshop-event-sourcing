@@ -10,10 +10,10 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
 {
     public class ReviewsByOwner : Projection
     {
+        private static string DocumentId(Guid id) => $"ReviewsByOwner/{id}";
         private readonly Func<IAsyncDocumentSession> getSession;
 
         public ReviewsByOwner(Func<IAsyncDocumentSession> session)=> getSession = session;
-        
 
         public override async Task Handle(object e)
         {
@@ -47,7 +47,7 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
                     
                     case Domain.Events.V1.ReviewApproved ev:
 
-                        session.Update<ReviewsByOwnerDocument>(DocumentId(ev.OwnerId), doc =>
+                        await session.Update<ReviewsByOwnerDocument>(DocumentId(ev.OwnerId), doc =>
                         {
                             var review = doc.ListOfReviews.First(q => q.Id == ev.Id);
                             review.Status = "Approved";
@@ -55,11 +55,11 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
                         break;
                     case Domain.Events.V1.CaptionAndContentChanged ev:
 
-                        session.Update<ReviewsByOwnerDocument>(DocumentId(ev.Owner), doc =>
+                        await session.Update<ReviewsByOwnerDocument>(DocumentId(ev.Owner), doc =>
                         {
                             var review = doc.ListOfReviews.First(q => q.Id == ev.Id);
-                            review.Caption = ev.Caption;
                             review.Content = ev.Content;
+                            review.Caption = ev.Caption;
                             review.Status = "Draft";
                         });
                         break;
@@ -69,14 +69,14 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
             }
         }
 
-        public static string DocumentId(Guid id) => $"ReviewsByOwner/{id}";
+        
     }
 
     public class ReviewsByOwnerDocument
     {
         public string Id { get; set; }
         public IList<ReviewDocument> ListOfReviews { get; set; }
-
+        
         public class ReviewDocument
         {
             public Guid Id { get; set; }
