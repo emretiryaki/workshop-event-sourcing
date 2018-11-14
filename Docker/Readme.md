@@ -82,3 +82,6 @@ Check if EventStore and RavenDb respond via http by visiting the administration 
 
 - [EventStore](http://localhost:2113), user name is "admin" and password is "changeit"
 - [RavenDb](http://localhost:8080)
+
+## Notes
+What brings you here of course not unique. I inspired a lot from [WorkshopEventSourcing](https://github.com/UbiquitousAS/WorkshopEventSourcing)
