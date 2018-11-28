@@ -31,15 +31,11 @@ namespace Reviews.Domain.Test
         }
 
         public override object[] Given()=> new object[0];
-
         public override Contracts.Reviews.V1.ReviewCreate When() => AutoFixture.Create<Contracts.Reviews.V1.ReviewCreate>();
         
-        
-        public override Func<Contracts.Reviews.V1.ReviewCreate, Task> GetHandler(SpecificationAggregateStore store)
+        public override Func<Contracts.Reviews.V1.ReviewCreate, Task> GetHandler(SpecificationAggregateStore store,SpesificationAggregateSnapshotStore snapshotStores)
         {
             return cmd => new ApplicationService(new Repository(store,null)).Handle(cmd);
         }
-
-       
     }
 }

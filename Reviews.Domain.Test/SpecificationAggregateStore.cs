@@ -1,11 +1,28 @@
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Reviews.Core;
 
 namespace Reviews.Domain.Test
 {
-    
-    
+
+    public class SpesificationAggregateSnapshotStore : ISnapshotStore
+    {
+        private Dictionary<Guid,object> snapshotStore=new Dictionary<Guid, object>();
+        
+        public Task<Snapshot> GetSnapshotAsync<T>(Type type, Guid aggregateId)
+        {
+            var s = default(T);
+            return  Task.FromResult((Snapshot) snapshotStore.GetValueOrDefault(aggregateId));
+        }
+
+        public Task<long> SaveSnapshotAsync(Snapshot snapshot)
+        {
+            snapshotStore.Add(snapshot.AggregateId, snapshot);
+            return Task.FromResult(long.MaxValue);
+        }
+    }
     
     public class SpecificationAggregateStore : IAggrigateStore
     {

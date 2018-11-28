@@ -155,6 +155,7 @@ namespace Reviews.Domain
             Version = item.Version;
         }
 
+        /*
         public Func<bool> SnapshotFrequency()
             => () =>
             {
@@ -165,8 +166,9 @@ namespace Reviews.Domain
                         (this.Version % SnapshotFrequency < this.ChangesCount()) ||
                         (this.Version % SnapshotFrequency == 0));
             };
+            */
 
-        //public Func<Review, bool> SnapshotFrequency(Review aggregate) => (t) => this.CurrentStatus==Status.Approved;
+        public Func<bool> SnapshotFrequency() => () => this.CurrentStatus==Status.Approved;
 
     }
 }
