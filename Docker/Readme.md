@@ -1,8 +1,7 @@
 # Review Project
 
 This is the lab repository for the Practical Event-Sourcing with C# hands-on session. 
-The workshop is taught by [Alper Hankendi](https://twitter.com/alper_hankendi). 
-Feel free to ping us if you have questions after the session or feedback to improve it.
+The workshop is taught by [Alper Hankendi](https://twitter.com/alper_hankendi).
 
 Due to the time limitation, there are many aspects of event-sourcing, which we will not be able to cover. 
 Some reference materials will be included in this file later on, so start the repo to be informed.
@@ -67,6 +66,7 @@ The workshop source files are located in the `branches` and there are several st
 - `01-event-store-before` is to get things started
 - `02-projection-before` shows how events are being persisted
 - `03-persist-subscriptions-before` explains how to build read models
+- `04-snapshot-before`explains how to take snaphot and persist them
 
 ```
 $ git checkout 01-event-store-before
