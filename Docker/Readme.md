@@ -23,6 +23,7 @@ Note that Docker Compose might _not_ included to your version of Docker, so you 
 
 >- [EventStore](https://eventstore.org/downloads/)
 >- [RavenDB 4](https://ravendb.net/downloads)
+>- [Redis](https://redis.io/download)
 
 *Important:* carefully read this section and ensure that everything works on your machine before the workshop. 
 
@@ -82,6 +83,7 @@ Check if EventStore and RavenDb respond via http by visiting the administration 
 
 - [EventStore](http://localhost:2113), user name is "admin" and password is "changeit"
 - [RavenDb](http://localhost:8080)
+- [Redis](tcp://localhost:6379)
 
 ## Notes
 What brings you here of course not unique. I inspired a lot from [WorkshopEventSourcing](https://github.com/UbiquitousAS/WorkshopEventSourcing)
