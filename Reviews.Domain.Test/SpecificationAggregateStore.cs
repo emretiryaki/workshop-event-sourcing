@@ -4,6 +4,9 @@ using Reviews.Core;
 
 namespace Reviews.Domain.Test
 {
+    
+    
+    
     public class SpecificationAggregateStore : IAggrigateStore
     {
         private Aggregate aggregate;
@@ -22,12 +25,12 @@ namespace Reviews.Domain.Test
             
             return Task.FromResult<(long NextExpectedVersion, long LogPosition, long CommitPosition)>(
                 (version,version,version));
-
         }
 
         public Task<T> Load<T>(string aggregateId, CancellationToken cancellationToken = default) where T : Aggregate,new()
             => Task.FromResult((T)aggregate);
-        
-       
+
+        public Task<object[]> GetEvents<T>(string aggregateId, long start, int count)
+            => Task.FromResult(RaisedEvents);
     }
 }

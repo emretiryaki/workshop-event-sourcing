@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
+using Reviews.Core;
 using Reviews.Service.WebApi.Modules.Reviews;
 using Xunit;
 using Xunit.Abstractions;
@@ -36,7 +37,7 @@ namespace Reviews.Domain.Test
         
         public override Func<Contracts.Reviews.V1.ReviewCreate, Task> GetHandler(SpecificationAggregateStore store)
         {
-            return cmd => new ApplicationService(store).Handle(cmd);
+            return cmd => new ApplicationService(new Repository(store,null)).Handle(cmd);
         }
 
        

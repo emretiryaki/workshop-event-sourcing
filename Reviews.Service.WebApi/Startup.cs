@@ -107,7 +107,8 @@ namespace Reviews.Service.WebApi
                 .Map<Domain.Events.V1.ReviewCreated>("reviewCreated")
                 .Map<Domain.Events.V1.CaptionAndContentChanged>("reviewUpdated")
                 .Map<Domain.Events.V1.ReviewPublished>("reviewPublished")
-                .Map<Domain.Events.V1.ReviewApproved>("reviewApproved");
+                .Map<Domain.Events.V1.ReviewApproved>("reviewApproved")
+                .Map<Domain.ReviewSnapshot>("reviewSnapshot");
 
 
             var aggregateStore = new GesAggrigateStore(
@@ -116,8 +117,18 @@ namespace Reviews.Service.WebApi
                 eventMapper,
                 (type, id) => $"{type.Name}-{id}", 
                 null);
+
+            var snapshotStore = new GesSnapshotStore(eventStoreConnection,
+                serializer,
+                eventMapper,
+                (type, id) => $"{type.Name}-{id}",
+                null);
             
-            services.AddSingleton(new ApplicationService(aggregateStore));
+            var repository = new Repository(aggregateStore,snapshotStore);
+
+            services.AddSingleton<IRepository>(repository);
+            
+            services.AddSingleton(new ApplicationService(repository));
 
             IAsyncDocumentSession GetSession() => BuildRevenDb().OpenAsyncSession();
             

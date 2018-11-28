@@ -30,5 +30,7 @@ namespace Reviews.Core
         }
 
         public object[] GetChanges() => changes.ToArray();
+        
+        public int ChangesCount() => changes.Count;
     }
 }

@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reviews.Service.QueryApi", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reviews.Service.Contract", "Reviews.Service.Contract\Reviews.Service.Contract.csproj", "{A092B922-6A9F-4610-9F05-355261CFBC51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reviews.Core.Snapshots.Providers", "Reviews.Core.Snapshots.Providers\Reviews.Core.Snapshots.Providers.csproj", "{0C44E833-3DCB-43BD-B102-6E5FD66A962D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{A092B922-6A9F-4610-9F05-355261CFBC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A092B922-6A9F-4610-9F05-355261CFBC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A092B922-6A9F-4610-9F05-355261CFBC51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C44E833-3DCB-43BD-B102-6E5FD66A962D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C44E833-3DCB-43BD-B102-6E5FD66A962D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C44E833-3DCB-43BD-B102-6E5FD66A962D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C44E833-3DCB-43BD-B102-6E5FD66A962D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{62C3E19F-C195-4DDB-912C-53888F536E5B} = {E0E25DD0-C136-48EF-8409-8444BE881CEF}

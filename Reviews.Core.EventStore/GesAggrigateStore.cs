@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -99,6 +100,37 @@ namespace Reviews.Core.EventStore
 
             return aggregate;
 
+        }
+
+        public async Task<object[]> GetEvents<T>(string aggregateId, long start, int count)
+        {
+            if(string.IsNullOrWhiteSpace(aggregateId))
+                throw new ArgumentException("Value cannot be null or whitrespace",nameof(aggregateId));
+
+            var stream = getStreamName(typeof(T), aggregateId);
+            
+            var streamEvents = new List<ResolvedEvent>();
+            StreamEventsSlice currentSlice;
+            long nextSliceStart = start < 0 ? StreamPosition.Start : start;
+            
+            do
+            {
+                int nextReadCount = count - streamEvents.Count();
+
+                if (nextReadCount > MaximumReadSize)
+                {
+                    nextReadCount = MaximumReadSize;
+                }
+
+                currentSlice = await eventStoreConnection.ReadStreamEventsForwardAsync(stream, nextSliceStart, nextReadCount, false);
+
+                nextSliceStart = currentSlice.NextEventNumber;
+
+                streamEvents.AddRange(currentSlice.Events);
+
+            } while (!currentSlice.IsEndOfStream);
+            
+            return streamEvents.Select(e=> serializer.Deserialize(e.Event.Data,eventTypeMapper.GetEventType(e.Event.EventType))).ToArray();
         }
     }
 }

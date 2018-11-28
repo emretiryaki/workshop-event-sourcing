@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Reviews.Core
@@ -10,5 +11,7 @@ namespace Reviews.Core
         
         Task<T> Load<T>(string aggregateId, CancellationToken cancellationToken = default) 
             where T : Aggregate,new();
+
+        Task<object[]> GetEvents<T>(string aggregateId, long start, int count);
     }
 }
