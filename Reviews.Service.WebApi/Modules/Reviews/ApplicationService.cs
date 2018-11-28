@@ -9,15 +9,15 @@ namespace Reviews.Service.WebApi.Modules.Reviews
     
     public class ApplicationService : IDomainService
     {
-        private readonly IRepository repository;
+        private readonly IAggrigateStore aggrigateStore;
 
-        public ApplicationService(IRepository repository)
+        public ApplicationService(IAggrigateStore aggrigateStore)
         {
-            this.repository = repository;
+            this.aggrigateStore = aggrigateStore;
         }
 
         public Task Handle(Contracts.Reviews.V1.ReviewCreate command) =>
-            repository.SaveAsync(Domain.Review.Create(command.Id,command.Owner,command.Caption,command.Content));
+            aggrigateStore.Save(Domain.Review.Create(command.Id,command.Owner,command.Caption,command.Content));
 
         public Task Handle(Contracts.Reviews.V1.ReviewApprove command) => 
             HandleForUpdate(command.Id, r => r.Approve(new UserId(command.Reviewer), DateTime.UtcNow));
@@ -32,9 +32,9 @@ namespace Reviews.Service.WebApi.Modules.Reviews
 
         private async Task HandleForUpdate(Guid aggregateId, Action<Domain.Review> handle)
         {
-            var aggregate = await repository.GetByIdAsync<Domain.Review>(aggregateId);
+            var aggregate = await aggrigateStore.Load<Domain.Review>(aggregateId.ToString());
             handle(aggregate);
-            await repository.SaveAsync(aggregate);
+            await aggrigateStore.Save(aggregate);
         }
         
     }

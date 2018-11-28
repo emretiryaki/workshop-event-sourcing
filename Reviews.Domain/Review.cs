@@ -34,7 +34,7 @@ namespace Reviews.Domain
         public Status Action { get; }
     }
     
-    public class Review :Aggregate,ISnapshottable<Review>
+    public class Review :Aggregate
     {
         public string Caption { get; private set; }
         public string Content { get; private set; }
@@ -139,37 +139,6 @@ namespace Reviews.Domain
                 OwnerId = Owner
             });
         }
-
-        public Snapshot TakeSnapshot()
-        {
-            return new ReviewSnapshot(Guid.NewGuid(),Id,Version,Caption,Content,CurrentStatus);
-        }
-
-        public void ApplySnapshot(Snapshot snapshot)
-        {
-            var item = (ReviewSnapshot)snapshot;
-
-            Id = item.AggregateId;
-            Content = item.Content;
-            Caption = item.Caption;
-            Version = item.Version;
-        }
-
-        /*
-        public Func<bool> SnapshotFrequency()
-            => () =>
-            {
-                var SnapshotFrequency = 100;
-
-                return ((this.Version > SnapshotFrequency) &&
-                        (this.ChangesCount() >= SnapshotFrequency) ||
-                        (this.Version % SnapshotFrequency < this.ChangesCount()) ||
-                        (this.Version % SnapshotFrequency == 0));
-            };
-            */
-
-        public Func<bool> SnapshotFrequency() => () => this.CurrentStatus==Status.Approved;
-
     }
 }
 
