@@ -11,12 +11,4 @@ namespace Reviews.Domain.Events.V1
 
         public override string ToString() => $"Review {Id} created by {Owner}";      
     }
-    
-    public class CaptionAndContentChanged
-    {
-        public string Content { get; set; }
-        public Guid Id { get; set; }
-        public string Caption { get; set; }
-        public DateTime ChangedAt { get; set; }
-    }
 }
