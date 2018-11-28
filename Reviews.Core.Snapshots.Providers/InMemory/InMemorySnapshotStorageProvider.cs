@@ -13,11 +13,9 @@ namespace Reviews.Core.Snapshots.Providers.InMemory
         private readonly Dictionary<Guid, Snapshot> _items = new Dictionary<Guid, Snapshot>();
 
         private readonly string _memoryDumpFile;
-        public int SnapshotFrequency { get; }
 
-        public InMemorySnapshotStorageProvider(int frequency, string memoryDumpFile)
+        public InMemorySnapshotStorageProvider(string memoryDumpFile)
         {
-            SnapshotFrequency = frequency;
             _memoryDumpFile = memoryDumpFile;
 
             if (File.Exists(_memoryDumpFile))

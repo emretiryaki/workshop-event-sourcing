@@ -5,6 +5,7 @@ using EventStore.ClientAPI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.InMemory.Storage.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Raven.Client.Documents;
@@ -16,6 +17,7 @@ using Reviews.Core.EventStore;
 using Reviews.Core;
 using Reviews.Core.Projections;
 using Reviews.Core.Projections.RavenDb;
+using Reviews.Core.Snapshots.Providers.InMemory;
 using Reviews.Service.WebApi.Modules.Reviews;
 using Reviews.Service.WebApi.Modules.Reviews.Projections;
 using Swashbuckle.AspNetCore.Swagger;
@@ -123,6 +125,9 @@ namespace Reviews.Service.WebApi
                 eventMapper,
                 (type, id) => $"{type.Name}-{id}",
                 null);
+
+            
+            var inMemorySnapshotStore = new InMemorySnapshotStorageProvider("memoryDumpFile.dats");
             
             var repository = new Repository(aggregateStore,snapshotStore);
 
