@@ -17,6 +17,7 @@ using Reviews.Core.EventStore;
 using Reviews.Core;
 using Reviews.Core.Projections;
 using Reviews.Core.Projections.RavenDb;
+using Reviews.Core.Snapshots.Providers;
 using Reviews.Core.Snapshots.Providers.InMemory;
 using Reviews.Service.WebApi.Modules.Reviews;
 using Reviews.Service.WebApi.Modules.Reviews.Projections;
@@ -120,7 +121,7 @@ namespace Reviews.Service.WebApi
                 (type, id) => $"{type.Name}-{id}", 
                 null);
 
-            var snapshotStore = new GesSnapshotStore(eventStoreConnection,
+            var gesSnapshotStore = new GesSnapshotStore(eventStoreConnection,
                 serializer,
                 eventMapper,
                 (type, id) => $"{type.Name}-{id}",
@@ -129,7 +130,9 @@ namespace Reviews.Service.WebApi
             
             var inMemorySnapshotStore = new InMemorySnapshotStorageProvider("memoryDumpFile.dats");
             
-            var repository = new Repository(aggregateStore,snapshotStore);
+            var redisSnapshotStore = new RedisSnapshotStoreProvider(Configuration["RedisStore:ConnectionString"]);
+            
+            var repository = new Repository(aggregateStore,gesSnapshotStore);
 
             services.AddSingleton<IRepository>(repository);
             

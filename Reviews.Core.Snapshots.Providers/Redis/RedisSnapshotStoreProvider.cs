@@ -9,9 +9,9 @@ namespace Reviews.Core.Snapshots.Providers
     {
         private readonly IRedisClientsManager clientsManager = null;
 
-        protected RedisSnapshotStoreProvider()
+        public RedisSnapshotStoreProvider(string url)
         {
-            clientsManager = RedisConnection.GetClientManager();
+            clientsManager = RedisConnection.GetClientManager(url);
         }
         public Task<Snapshot> GetSnapshotAsync<T>(Type type, Guid aggregateId)
         {
@@ -55,22 +55,20 @@ namespace Reviews.Core.Snapshots.Providers
         }
         
         
-        private IRedisClientsManager GetClientsManager()
+        private IRedisClientsManager GetClientsManager(string url)
         {
-            return RedisConnection.GetClientManager();
+            return RedisConnection.GetClientManager(url);
         }
     }
     public static class RedisConnection
     {
-        private const string RedisConnectionString = "EventSourcingTest:127.0.0.1:12322";
-
         private static IRedisClientsManager _manager;
 
-        public static IRedisClientsManager GetClientManager()
+        public static IRedisClientsManager GetClientManager(string url)
         {
             if (_manager == null)
             {
-                _manager = new RedisManagerPool(RedisConnectionString);
+                _manager = new RedisManagerPool(url);
             }
 
             return _manager;
