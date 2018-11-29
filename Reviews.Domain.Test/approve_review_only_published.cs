@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
@@ -9,23 +8,18 @@ using Xunit.Abstractions;
 
 namespace Reviews.Domain.Test
 {
-    public class approve_review : Spesification<Review,Contracts.Reviews.V1.ReviewApprove>
+    public class approve_review_only_published : Spesification<Review,Contracts.Reviews.V1.ReviewApprove>
     {
-        public approve_review(ITestOutputHelper outputHelper) : base(outputHelper)
+        public approve_review_only_published(ITestOutputHelper outputHelper) : base(outputHelper)
         {
         }
 
         public readonly Fixture AutoFixture = new Fixture();
 
         [Fact]
-        public void review_content_is_published()
+        public void review_content_is_published_but_status_is_not_pendingApprove()
         {
-            RaisedEvents.Should().BeEquivalentTo(new Domain.Events.V1.ReviewApproved
-            {
-                Id = AggregateId,
-                 ReviewAt = ChangedAt,
-                ReviewBy = Reviewer,
-            });
+            CaughtException.Should().BeOfType<ReviewInvalidStatus>();
         }
 
         private Guid AggregateId { get; } = Guid.NewGuid();
@@ -35,7 +29,7 @@ namespace Reviews.Domain.Test
 
         public override object[] Given()
         {
-            var obj =new object[2];
+            var obj =new object[1];
             
             obj[0]= AutoFixture.Build<Events.V1.ReviewCreated>()
                 .With(e => e.Id, AggregateId)
@@ -44,11 +38,6 @@ namespace Reviews.Domain.Test
                 .With(e => e.Content, "This is my first review.")
                 .Create();
             
-            obj[1]= AutoFixture.Build<Events.V1.ReviewPublished>()
-                .With(e => e.Id, AggregateId)
-                .With(e => e.PublishAt, ChangedAt)
-                .Create();
-
             return obj;
 
         }

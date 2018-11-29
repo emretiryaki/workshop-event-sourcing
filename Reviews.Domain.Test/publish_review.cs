@@ -23,12 +23,11 @@ namespace Reviews.Domain.Test
             RaisedEvents.Should().BeEquivalentTo(new Domain.Events.V1.ReviewPublished
             {
                 Id = AggregateId,
-                ChangedAt = ChangedAt
+                PublishAt = ChangedAt
             });
         }
 
         private Guid AggregateId { get; } = Guid.NewGuid();
-        private Guid ReviewId { get; } = Guid.NewGuid();
         private Guid OwnerId { get; } = Guid.NewGuid();
         private DateTime ChangedAt { get; } = DateTime.UtcNow;
         

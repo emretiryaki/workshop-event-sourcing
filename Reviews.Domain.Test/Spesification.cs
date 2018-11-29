@@ -67,6 +67,9 @@ namespace Reviews.Domain.Test
             outputHelper.WriteLine($"    {Command}");
           
             outputHelper.WriteLine("Then");
+            
+            if (CaughtException != null) return;
+            
             foreach (var e in RaisedEvents)
             {
                 outputHelper.WriteLine($"    {e}");
