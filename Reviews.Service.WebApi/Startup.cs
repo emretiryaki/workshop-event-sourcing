@@ -82,8 +82,9 @@ namespace Reviews.Service.WebApi
 
             var eventMapper = new EventTypeMapper()
                 .Map<Domain.Events.V1.ReviewCreated>("reviewCreated")
-                .Map<Domain.Events.V1.CaptionAndContentChanged>("reviewUpdated");
-
+                .Map<Domain.Events.V1.CaptionAndContentChanged>("reviewUpdated")
+                .Map<Domain.Events.V1.ReviewPublished>("reviewPublished")
+                .Map<Domain.Events.V1.ReviewApproved>("reviewApproved");
 
             var aggregateStore = new GesAggrigateStore(
                 gesConnection, 
