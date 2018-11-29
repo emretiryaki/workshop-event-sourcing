@@ -41,6 +41,8 @@ namespace Reviews.Contracts
                 /// </summary>
                 public Guid Reviewer { get;  set; }
                 
+                public DateTime ChangedAt { get; set; }
+                
             }
 
             public class UpdateReview
@@ -60,6 +62,7 @@ namespace Reviews.Contracts
             public class ReviewPublish
             {
                 public Guid Id { get; set; }
+                public DateTime ChangedAt { get; set; }
             }
         }
     }
