@@ -55,6 +55,25 @@ namespace Reviews.Domain
                     CurrentStatus = Status.Draft;
                     Owner = x.Owner;
                     break;
+                
+                case Events.V1.ReviewApproved x:	
+                    CurrentStatus = Status.Approved;	
+                    History.Add(new History(x.ReviewAt,x.ReviewBy,Status.Approved));	
+                    break;	
+                	
+                case Events.V1.CaptionAndContentChanged x:	
+                    Caption = x.Caption;	
+                    Content = x.Content;	
+                    CurrentStatus = Status.Draft;	
+                    	
+                    if(CurrentStatus == Status.Approved || CurrentStatus==Status.Rejected)	
+                        CurrentStatus = Status.PendingApprove;	
+                    	
+                    break;	
+                	
+                case Events.V1.ReviewPublished x:	
+                    CurrentStatus = Status.PendingApprove;	
+                    break;
             } 
         }
 
@@ -70,6 +89,49 @@ namespace Reviews.Domain
                 Owner = ownerid
             });
             return review;
+        }
+        
+        public void UpdateCaptionAndContent(string caption, string content,DateTime changedAt)	
+        {	
+            if (Version == -1)	
+                throw new ReviewNotFoundException(Id);	
+            	
+            Apple(new Events.V1.CaptionAndContentChanged	
+            {	
+                Id=Id,	
+                Caption=caption,	
+                Content=content,	
+                ChangedAt=changedAt	
+            });	
+        }	
+        public void Publish(DateTime changedAt)	
+        {	
+            if (Version == -1)	
+                throw new ReviewNotFoundException(Id);	
+            if (CurrentStatus == Status.Draft || CurrentStatus == Status.Rejected)	
+            {	
+                Apple(new Events.V1.ReviewPublished	
+                {	
+                    Id=Id,	
+                    PublishAt= changedAt,	
+                });    	
+            }	
+            	
+        }        	
+        public void Approve(UserId reviewBy, DateTime reviewAt)	
+        {	
+            if (Version == -1)	
+                throw new ReviewNotFoundException(Id);	
+            if (CurrentStatus != Status.PendingApprove)	
+            {	
+                throw new ReviewInvalidStatus(Id,CurrentStatus);	
+            }	
+            Apple(new Events.V1.ReviewApproved	
+            {	
+                Id = Id,	
+                ReviewBy = reviewBy,	
+                ReviewAt = reviewAt	
+            });	
         }
     }
 }
