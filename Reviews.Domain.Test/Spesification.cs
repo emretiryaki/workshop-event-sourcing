@@ -51,6 +51,8 @@ namespace Reviews.Domain.Test
 
         private void Print(ITestOutputHelper outputHelper)
         {
+            if (CaughtException != null) return;
+            
             outputHelper.WriteLine("Scenario: " + GetType().Name.Replace("_"," "));
             outputHelper.WriteLine("");
 

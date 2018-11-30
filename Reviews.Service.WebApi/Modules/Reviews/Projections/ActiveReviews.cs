@@ -25,7 +25,7 @@ namespace Reviews.Service.WebApi.Modules.Reviews.Projections
                             Id = DocumentId(view.Id),
                             Caption = view.Caption,
                             Content = view.Content,
-                            Owner =  view.OwnerId.ToString(),
+                            Owner =  view.Owner.ToString(),
                             ReviewAt = view.ReviewAt,
                             ReviewBy = view.ReviewBy.ToString()
                         };

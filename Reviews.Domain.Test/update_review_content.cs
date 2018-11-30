@@ -27,7 +27,7 @@ namespace Reviews.Domain.Test
                 Caption = NewCaption,
                 Content = NewContent,
                 ChangedAt = ChangedAt,
-                Owner = OwnerId
+                OwnerId = OwnerId
             });
         }
         private Guid ReviewId { get; } = Guid.NewGuid();
