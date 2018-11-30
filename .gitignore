@@ -1,5 +1,5 @@
 Reviews.Core.EventStore.Tests/obj
-.idea/.idea.event-store-demo/.idea
+.idea
 console-app/bin
 console-app/obj
 Reviews.Core.EventStore.Tests/bin
@@ -16,3 +16,4 @@ Reviews.Service.WebApi/bin
 Reviews.Service.WebApi/obj
 Subscribe-demo/bin
 Subscribe-demo/obj
+
