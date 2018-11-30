@@ -26,7 +26,8 @@ namespace Reviews.Domain.Test
                 Id = ReviewId,
                 Caption = NewCaption,
                 Content = NewContent,
-                ChangedAt = ChangedAt
+                ChangedAt = ChangedAt,
+                OwnerId = OwnerId
             });
         }
         private Guid ReviewId { get; } = Guid.NewGuid();
@@ -37,7 +38,7 @@ namespace Reviews.Domain.Test
         
         public override object[] Given() => AutoFixture.Build<Events.V1.ReviewCreated>()
             .With(e => e.Id, ReviewId)
-            .With(e=>e.Owner,new UserId(OwnerId))
+            .With(e=>e.Owner,OwnerId)
             .With(e=> e.Caption,"First Review")
             .With(e=> e.Content, "This is my first review.")
             .CreateMany(1)

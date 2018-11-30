@@ -125,6 +125,7 @@ namespace Reviews.Service.WebApi
                 .CheckpointStore(new RavenDbChecklpointStore(GetSession))
                 .Serializer(serializer)
                 .TypeMapper(eventMapper)
+                //TODO: GetSession function needs to inject projections...
                 .AddProjection(new ActiveReviews())
                 .StartAll();
         }

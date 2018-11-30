@@ -23,7 +23,8 @@ namespace Reviews.Domain.Test
             RaisedEvents.Should().BeEquivalentTo(new Domain.Events.V1.ReviewPublished
             {
                 Id = AggregateId,
-                PublishAt = ChangedAt
+                PublishAt = ChangedAt,
+                OwnerId = OwnerId
             });
         }
 
@@ -33,7 +34,7 @@ namespace Reviews.Domain.Test
         
         public override object[] Given() => AutoFixture.Build<Events.V1.ReviewCreated>()
             .With(e => e.Id, AggregateId)
-            .With(e=>e.Owner,new UserId(OwnerId))
+            .With(e=>e.Owner,OwnerId)
             .With(e=> e.Caption,"First Review")
             .With(e=> e.Content, "This is my first review.")
             .CreateMany(1)

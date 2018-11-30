@@ -25,6 +25,9 @@ namespace Reviews.Domain.Test
                 Id = AggregateId,
                  ReviewAt = ChangedAt,
                 ReviewBy = Reviewer,
+                Caption = Caption,
+                Owner = OwnerId,
+                Content = Content
             });
         }
 
@@ -32,6 +35,8 @@ namespace Reviews.Domain.Test
         private Guid Reviewer { get; } = Guid.NewGuid();
         private Guid OwnerId { get; } = Guid.NewGuid();
         private DateTime ChangedAt { get; } = DateTime.UtcNow;
+        private string Caption { get; } = "First Review";
+        private string Content { get; } = "This is my first review.";
 
         public override object[] Given()
         {
@@ -39,9 +44,9 @@ namespace Reviews.Domain.Test
             
             obj[0]= AutoFixture.Build<Events.V1.ReviewCreated>()
                 .With(e => e.Id, AggregateId)
-                .With(e => e.Owner, new UserId(OwnerId))
-                .With(e => e.Caption, "First Review")
-                .With(e => e.Content, "This is my first review.")
+                .With(e => e.Owner, OwnerId)
+                .With(e => e.Caption,Caption)
+                .With(e => e.Content, Content)
                 .Create();
             
             obj[1]= AutoFixture.Build<Events.V1.ReviewPublished>()

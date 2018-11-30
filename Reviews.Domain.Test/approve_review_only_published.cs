@@ -33,7 +33,7 @@ namespace Reviews.Domain.Test
             
             obj[0]= AutoFixture.Build<Events.V1.ReviewCreated>()
                 .With(e => e.Id, AggregateId)
-                .With(e => e.Owner, new UserId(OwnerId))
+                .With(e => e.Owner, OwnerId)
                 .With(e => e.Caption, "First Review")
                 .With(e => e.Content, "This is my first review.")
                 .Create();
