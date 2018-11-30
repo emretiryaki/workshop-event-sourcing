@@ -127,6 +127,7 @@ namespace Reviews.Service.WebApi
                 .TypeMapper(eventMapper)
                 //TODO: GetSession function needs to inject projections...
                 .AddProjection(new ActiveReviews())
+                .AddProjection(new ReviewsByOwner())
                 .StartAll();
         }
 
