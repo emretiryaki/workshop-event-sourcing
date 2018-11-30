@@ -39,7 +39,9 @@ namespace Reviews.Contracts
                 /// <summary>
                 /// creater of Reviewer
                 /// </summary>
-                public Guid Reviewer { get;  set; }
+                public Guid ReviewBy { get;  set; }
+                
+                public DateTime ReviewAt { get; set; }
                 
             }
 
@@ -60,6 +62,7 @@ namespace Reviews.Contracts
             public class ReviewPublish
             {
                 public Guid Id { get; set; }
+                public DateTime ChangedAt { get; set; }
             }
         }
     }

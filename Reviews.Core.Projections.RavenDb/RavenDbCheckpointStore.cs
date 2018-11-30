@@ -4,7 +4,7 @@ using Raven.Client.Documents.Session;
 
 namespace Reviews.Core.Projections.RavenDb
 {
-    public class RavenDbChecklpointStore: ICheckpointStore
+    public class RavenDbChecklpointStore: Reviews.Core.Projections.ICheckpointStore
     {
         private readonly Func<IAsyncDocumentSession> getSession;
         

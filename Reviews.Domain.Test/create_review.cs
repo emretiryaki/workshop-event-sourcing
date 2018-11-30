@@ -38,7 +38,5 @@ namespace Reviews.Domain.Test
         {
             return cmd => new ApplicationService(store).Handle(cmd);
         }
-
-       
     }
 }

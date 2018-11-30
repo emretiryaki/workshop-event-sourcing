@@ -14,13 +14,10 @@ using Raven.Client.ServerWide;
 using Raven.Client.ServerWide.Operations;
 using Reviews.Core.EventStore;
 using Reviews.Core;
-using Reviews.Core.Projections;
 using Reviews.Core.Projections.RavenDb;
 using Reviews.Service.WebApi.Modules.Reviews;
 using Reviews.Service.WebApi.Modules.Reviews.Projections;
 using Swashbuckle.AspNetCore.Swagger;
-using ICheckpointStore = Reviews.Core.Projections.ICheckpointStore;
-
 
 namespace Reviews.Service.WebApi
 {
@@ -122,7 +119,7 @@ namespace Reviews.Service.WebApi
 
             IAsyncDocumentSession GetSession() => BuildRevenDb().OpenAsyncSession();
 
-            
+
             await ProjectionManager.With
                 .Connection(eventStoreConnection)
                 .CheckpointStore(new RavenDbChecklpointStore(GetSession))
