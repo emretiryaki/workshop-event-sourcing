@@ -85,5 +85,9 @@ Check if EventStore and RavenDb respond via http by visiting the administration 
 - [RavenDb](http://localhost:8080)
 - [Redis](tcp://localhost:6379)
 
+the puzzle starts here ```git clone https://github.com/alperhankendi/workshop-event-sourcing/tree/01-event-store-before```
+
+have fun!
+
 ## Notes
 What brings you here of course not unique. I inspired a lot from [WorkshopEventSourcing](https://github.com/UbiquitousAS/WorkshopEventSourcing)
