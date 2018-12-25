@@ -53,3 +53,9 @@ src/Reviews.Domain/bin
 src/Reviews.Core.EventStore/bin
 src/Reviews.Core/bin
 tests/Reviews.Domain.Test/obj
+chapters/01-event-store-before/Reviews.Core.EventStore.Tests/obj
+chapters/01-event-store-before/Reviews.Core.EventStore/obj
+chapters/01-event-store-before/Reviews.Core/obj
+chapters/01-event-store-before/Reviews.Domain.Test/obj
+chapters/01-event-store-before/Reviews.Domain/obj
+chapters/01-event-store-before/Reviews.Service.WebApi/obj
