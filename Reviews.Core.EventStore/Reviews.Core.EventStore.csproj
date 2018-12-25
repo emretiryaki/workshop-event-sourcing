@@ -7,8 +7,6 @@
     <ProjectReference Include="..\Reviews.Core\Reviews.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="EventStore.Client">
-      <Version>4.1.1</Version>
-    </PackageReference>
+    <PackageReference Include="EventStore.ClientAPI.NetCore" Version="4.1.1-rc" />
   </ItemGroup>
 </Project>
