@@ -59,3 +59,15 @@ chapters/01-event-store-before/Reviews.Core/obj
 chapters/01-event-store-before/Reviews.Domain.Test/obj
 chapters/01-event-store-before/Reviews.Domain/obj
 chapters/01-event-store-before/Reviews.Service.WebApi/obj
+chapters/01-event-store-after/Reviews.Core.EventStore.Tests/bin
+chapters/01-event-store-after/Reviews.Core.EventStore.Tests/obj
+chapters/01-event-store-after/Reviews.Core.EventStore/bin
+chapters/01-event-store-after/Reviews.Core.EventStore/obj
+chapters/01-event-store-after/Reviews.Core/obj
+chapters/01-event-store-after/Reviews.Core/bin
+chapters/01-event-store-after/Reviews.Domain.Test/bin
+chapters/01-event-store-after/Reviews.Domain.Test/obj
+chapters/01-event-store-after/Reviews.Domain/obj
+chapters/01-event-store-after/Reviews.Service.WebApi/bin
+chapters/01-event-store-after/Reviews.Service.WebApi/obj
+chapters/01-event-store-after/Reviews.Domain/bin
