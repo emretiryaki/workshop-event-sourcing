@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoFixture;
 using EventStore.ClientAPI;
 using Reviews.Service.WebApi;
-using Xunit;
 
 namespace Reviews.Core.EventStore.Tests
 {
@@ -19,6 +18,12 @@ namespace Reviews.Core.EventStore.Tests
             Connection = GetConnection().GetAwaiter().GetResult();
             Serializer = new JsonNetSerializer();
             AutoFixture = new Fixture();
+            EventTypeMapper  = new EventTypeMapper()
+                .Map<Domain.Events.V1.ReviewCreated>("reviewCreated")
+                .Map<Domain.Events.V1.CaptionAndContentChanged>("reviewUpdated")
+                .Map<Domain.Events.V1.ReviewPublished>("reviewPublished")
+                .Map<Domain.Events.V1.ReviewApproved>("reviewApproved")
+                .Map<Domain.ReviewSnapshot>("reviewSnapshot");
 
         }
 

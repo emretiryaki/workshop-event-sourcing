@@ -49,7 +49,7 @@ namespace Reviews.Core.Projections.RavenDb
                     },docId);
                 }
 
-                session.SaveChangesAsync();
+                await session.SaveChangesAsync();
             }
         }
         

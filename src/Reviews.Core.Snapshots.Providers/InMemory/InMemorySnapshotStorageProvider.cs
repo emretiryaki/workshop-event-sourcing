@@ -30,10 +30,8 @@ namespace Reviews.Core.Snapshots.Providers.InMemory
             {
                 return _items[aggregateId];
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         public async Task<long> SaveSnapshotAsync(Snapshot snapshot)
