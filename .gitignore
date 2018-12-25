@@ -1,5 +1,6 @@
 Reviews.Core.EventStore.Tests/obj
 .idea/.idea.event-store-demo/.idea
+.idea
 console-app/bin
 console-app/obj
 Reviews.Core.EventStore.Tests/bin
