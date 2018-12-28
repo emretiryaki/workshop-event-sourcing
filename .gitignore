@@ -71,3 +71,12 @@ chapters/01-event-store-after/Reviews.Domain/obj
 chapters/01-event-store-after/Reviews.Service.WebApi/bin
 chapters/01-event-store-after/Reviews.Service.WebApi/obj
 chapters/01-event-store-after/Reviews.Domain/bin
+chapters/02-projection-before/Reviews.Core.EventStore/obj
+chapters/02-projection-before/Reviews.Core.EventStore.Tests/obj
+chapters/02-projection-before/Reviews.Core.Projections.RavenDb.Test/obj
+chapters/02-projection-before/Reviews.Service.WebApi/obj
+chapters/02-projection-before/Reviews.Domain/obj
+event-store-demo.sln.DotSettings.user
+chapters/02-projection-before/Reviews.Core.Projections.RavenDb/obj
+chapters/02-projection-before/Reviews.Core/obj
+chapters/02-projection-before/Reviews.Domain.Test/obj
